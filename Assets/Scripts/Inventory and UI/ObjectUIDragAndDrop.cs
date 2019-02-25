@@ -5,11 +5,11 @@ using UnityEngine;
 public class ObjectUIDragAndDrop : MonoBehaviour
 {
     [SerializeField] LevelObjectType type;
-    InventoryManager inventoryManager;
+    PlacementSpot relatedSpot;
 
-    public void SetUp(InventoryManager inventManager)
+    public void SetUp(PlacementSpot baseSpot)
     {
-        inventoryManager = inventManager;
+        relatedSpot = baseSpot;
     }
 
     public void Update()
@@ -18,7 +18,11 @@ public class ObjectUIDragAndDrop : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0))
         {
-            CheckForSpot();
+            if (!CheckForSpot())
+            {
+                GameManager.gameManager.InvtManager.RetrieveObject(type);
+            }
+            
             Destroy(gameObject);
         }
     }
@@ -27,7 +31,40 @@ public class ObjectUIDragAndDrop : MonoBehaviour
     {
         bool spotPresent = false;
 
+        PlacementSpot goodSpot = null;
 
+        LevelObjectType newSpotBasicObjectType = LevelObjectType.None;
+
+        Ray ray = GameManager.gameManager.PreparationCamera.ScreenPointToRay(Input.mousePosition);
+
+        RaycastHit[] hits = Physics.RaycastAll(ray);
+
+        foreach (RaycastHit hit in hits)
+        {
+            PlacementSpot spot = hit.collider.GetComponent<PlacementSpot>();
+            if (spot != null)
+            {
+                goodSpot = spot;
+                if (spot != relatedSpot)
+                {
+                    if(spot.GetPlacedObject() != null)
+                        newSpotBasicObjectType = spot.GetPlacedObject().GetLvlObjectType;                    
+
+                    GameManager.gameManager.InvtManager.PlaceObject(type, spot, relatedSpot);
+                    spotPresent = true;
+                    break;
+                }
+            }
+        }
+
+        if (relatedSpot != null && relatedSpot != goodSpot)
+        {
+            relatedSpot.RemoveObject();
+            if(newSpotBasicObjectType != LevelObjectType.None)
+            {
+                GameManager.gameManager.InvtManager.PlaceObject(newSpotBasicObjectType, relatedSpot, null);
+            }
+        }
 
         return spotPresent;
     }

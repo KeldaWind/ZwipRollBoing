@@ -5,13 +5,26 @@ using UnityEngine;
 public class LevelManager : MonoBehaviour
 {
     public static LevelManager levelManager;
+    public int stockOfCylinders;
+    public int stockOfPyramids;
+    public int stockOfCones;
 
     private void Awake()
     {
         levelManager = this;
     }
 
-    [SerializeField] LevelObject[] levelObjects;
+    [SerializeField] List<LevelObject> levelObjects;
+
+    public void AddNewObject(LevelObject newObj)
+    {
+        levelObjects.Add(newObj);
+    }
+
+    public void RemoveObject(LevelObject objToRemove)
+    {
+        levelObjects.Remove(objToRemove);
+    }
 
     public void CheckAllObjectsFunction()
     {

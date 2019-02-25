@@ -69,6 +69,27 @@ public class LevelObjectModificationManager : MonoBehaviour
 
         return interacted;
     }
+
+    public void CheckForStartDND()
+    {
+        Camera editCam = GameManager.gameManager.PreparationCamera;
+
+        if (!editCam.enabled)
+            return;
+
+        Ray mouseRay = editCam.ScreenPointToRay(Input.mousePosition);
+
+        RaycastHit[] hits = Physics.RaycastAll(mouseRay);
+
+        foreach (RaycastHit hit in hits)
+        {
+            PlacementSpot spot = hit.collider.GetComponent<PlacementSpot>();
+            if (spot != null)
+            {
+                spot.StartPossibleDND();
+            }
+        }
+    }
     #endregion
 
     private void Update()
@@ -79,6 +100,8 @@ public class LevelObjectModificationManager : MonoBehaviour
             {
                 CheckForObjectSelect();
             }
+
+            CheckForStartDND();
         }
     }
 

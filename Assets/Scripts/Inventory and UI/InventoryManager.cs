@@ -2,18 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public class InventoryManager : MonoBehaviour
+
+[System.Serializable]
+public class InventoryManager
 {
     [Header("Level Objects")]
     [SerializeField] LevelObject cylinderPrefab;
     [SerializeField] LevelObject pyramidPrefab;
     [SerializeField] LevelObject conePrefab;
 
-    [SerializeField] int totalNumberOfCylinder;
     int remainingNumberOfCylinder;
-    [SerializeField] int totalNumberOfPyramid;
     int remainingNumberOfPyramid;
-    [SerializeField] int totalNumberOfCone;
     int remainingNumberOfCone;
 
     [Header("UI")]
@@ -30,10 +29,12 @@ public class InventoryManager : MonoBehaviour
 
     public void SetUp()
     {
-        remainingNumberOfCylinder = totalNumberOfCylinder;
-        remainingNumberOfPyramid = totalNumberOfPyramid;
-        remainingNumberOfCone = totalNumberOfCone;
+        remainingNumberOfCylinder = LevelManager.levelManager.stockOfCylinders;
+        remainingNumberOfPyramid = LevelManager.levelManager.stockOfPyramids;
+        remainingNumberOfCone = LevelManager.levelManager.stockOfCones;
+        UpdateUI();
     }
+
 
     public void UpdateUI()
     {
@@ -42,44 +43,121 @@ public class InventoryManager : MonoBehaviour
         coneNumberText.text = remainingNumberOfCone.ToString();
     }
 
-    public void StartDragAndDrop(LevelObjectType type)
+    public ObjectUIDragAndDrop StartDragAndDrop(LevelObjectType type)
     {
         if (type == LevelObjectType.Cylinder)
         {
-            ObjectUIDragAndDrop newDNDObject = Instantiate(dndCylinderPrefab, dragAndDropObjectsParent);
-            newDNDObject.SetUp(this);
+            ObjectUIDragAndDrop newDNDObject = Object.Instantiate(dndCylinderPrefab, dragAndDropObjectsParent);
+            newDNDObject.transform.localPosition = Input.mousePosition;
+            return newDNDObject;
         }
         else if (type == LevelObjectType.Pyramid)
         {
-            ObjectUIDragAndDrop newDNDObject = Instantiate(dndPyramidPrefab, dragAndDropObjectsParent);
-            newDNDObject.SetUp(this);
+            ObjectUIDragAndDrop newDNDObject = Object.Instantiate(dndPyramidPrefab, dragAndDropObjectsParent);
+            newDNDObject.transform.localPosition = Input.mousePosition;
+            return newDNDObject;
         }
         else if (type == LevelObjectType.Cone)
         {
-            ObjectUIDragAndDrop newDNDObject = Instantiate(dndConePrefab, dragAndDropObjectsParent);
-            newDNDObject.SetUp(this);
+            ObjectUIDragAndDrop newDNDObject = Object.Instantiate(dndConePrefab, dragAndDropObjectsParent);
+            newDNDObject.transform.localPosition = Input.mousePosition;
+            return newDNDObject;
         }
+
+        return null;
     }
 
-    public void PlaceObject(LevelObjectType type)
+    public void PlaceObject(LevelObjectType type, PlacementSpot newSpot, PlacementSpot originSpot)
     {
-        if(type == LevelObjectType.Cylinder)
+        if (newSpot != null)
         {
+            LevelObject alreadyPlacedObj = newSpot.GetPlacedObject();
+            if (alreadyPlacedObj != null)
+            {
+                switch (alreadyPlacedObj.GetLvlObjectType)
+                {
+                    case (LevelObjectType.Cylinder):
+                        remainingNumberOfCylinder++;
+                        break;
 
+                    case (LevelObjectType.Pyramid):
+                        remainingNumberOfPyramid++;
+                        break;
+
+                    case (LevelObjectType.Cone):
+                        remainingNumberOfCone++;
+                        break;
+                }
+            }
+        }
+
+        if (originSpot != null)
+        {
+            LevelObject originalSpotObj = originSpot.GetPlacedObject();
+            if (originalSpotObj != null)
+            {
+                switch (originalSpotObj.GetLvlObjectType)
+                {
+                    case (LevelObjectType.Cylinder):
+                        remainingNumberOfCylinder++;
+                        break;
+
+                    case (LevelObjectType.Pyramid):
+                        remainingNumberOfPyramid++;
+                        break;
+
+                    case (LevelObjectType.Cone):
+                        remainingNumberOfCone++;
+                        break;
+                }
+            }
+        }
+
+        if (type == LevelObjectType.Cylinder)
+        {
+            if (remainingNumberOfCylinder <= 0)
+                return;
+
+            LevelObject newObject = Object.Instantiate(cylinderPrefab);
+            newSpot.PlaceNewObject(newObject);
+            remainingNumberOfCylinder--;
         }
         else if (type == LevelObjectType.Pyramid)
         {
+            if (remainingNumberOfPyramid <= 0)
+                return;
 
+            LevelObject newObject = Object.Instantiate(pyramidPrefab);
+            newSpot.PlaceNewObject(newObject);
+            remainingNumberOfPyramid--;
         }
         else if (type == LevelObjectType.Cone)
         {
+            if (remainingNumberOfCone <= 0)
+                return;
 
+            LevelObject newObject = Object.Instantiate(conePrefab);
+            newSpot.PlaceNewObject(newObject);
+            remainingNumberOfCone--;
         }
     }
 
-    public void RetrievObject()
+    public void RetrieveObject(LevelObjectType type)
     {
+        switch (type)
+        {
+            case (LevelObjectType.Cylinder):
+                remainingNumberOfCylinder++;
+                break;
 
+            case (LevelObjectType.Pyramid):
+                remainingNumberOfPyramid++;
+                break;
+
+            case (LevelObjectType.Cone):
+                remainingNumberOfCone++;
+                break;
+        }
     }
 
     public void GetPrefab()

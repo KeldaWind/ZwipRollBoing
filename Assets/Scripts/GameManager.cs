@@ -1,10 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager gameManager;
+
+    [Header("Modules")]
+    [SerializeField] InventoryManager inventoryManager;
+    public InventoryManager InvtManager
+    {
+        get
+        {
+            return inventoryManager;
+        }
+    }
 
     private void Awake()
     {
@@ -13,16 +25,21 @@ public class GameManager : MonoBehaviour
         ball.SetUpBall();
 
         StartPreparationPhase();
+
+        inventoryManager.SetUp();
     }
 
     private void Update()
     {
+        UpdateUIInteractions();
+
+        inventoryManager.UpdateUI();
     }
 
     #region Preparation
     [Header("Preparation")]
     [SerializeField] Camera preparationCamera;
-    public  Camera PreparationCamera
+    public Camera PreparationCamera
     {
         get
         {
@@ -85,4 +102,32 @@ public class GameManager : MonoBehaviour
 
     }
     #endregion
-}
+
+    #region UI interactions
+    [Header("General References")]
+    [SerializeField] GraphicRaycaster graphicRaycaster;
+    [SerializeField] EventSystem eventSystem;
+    PointerEventData pointerEventData;
+
+    private void UpdateUIInteractions()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            pointerEventData = new PointerEventData(eventSystem);
+            pointerEventData.position = Input.mousePosition;
+
+            List<RaycastResult> results = new List<RaycastResult>();
+            graphicRaycaster.Raycast(pointerEventData, results);
+
+            foreach(RaycastResult result in results)
+            {
+                ObjectUIStock stock = result.gameObject.GetComponent<ObjectUIStock>();
+                if (stock != null)
+                {
+                    inventoryManager.StartDragAndDrop(stock.type);
+                }
+            }
+        }        
+    } 
+        #endregion
+    }
