@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlacementSpot : MonoBehaviour
 {
     [SerializeField] Transform placementPosition;
+    [SerializeField] MeshRenderer renderer;
     bool occupied;
     LevelObject placedObject;
 
@@ -58,6 +59,11 @@ public class PlacementSpot : MonoBehaviour
         startPos = Input.mousePosition;
     }
 
+    private void Start()
+    {
+        GameManager.gameManager.AddPlacementSpot(this);
+    }
+
     private void Update()
     {
         if (possibleDND)
@@ -75,5 +81,17 @@ public class PlacementSpot : MonoBehaviour
                 dnded = false;
             }
 ;        }
+    }
+
+    public void ShowRenderer()
+    {
+        if (renderer != null)
+            renderer.enabled = true;
+    }
+
+    public void HideRenderer()
+    {
+        if (renderer != null)
+            renderer.enabled = false;
     }
 }

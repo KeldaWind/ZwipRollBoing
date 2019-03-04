@@ -20,7 +20,8 @@ public class ObjectUIDragAndDrop : MonoBehaviour
         {
             if (!CheckForSpot())
             {
-                GameManager.gameManager.InvtManager.RetrieveObject(type);
+                if(relatedSpot !=  null)
+                    GameManager.gameManager.InvtManager.RetrieveObject(type);
             }
             
             Destroy(gameObject);

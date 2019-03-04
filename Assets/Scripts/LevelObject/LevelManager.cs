@@ -8,6 +8,7 @@ public class LevelManager : MonoBehaviour
     public int stockOfCylinders;
     public int stockOfPyramids;
     public int stockOfCones;
+    public string nextLevelName;
 
     private void Awake()
     {
@@ -42,4 +43,5 @@ public class LevelManager : MonoBehaviour
             obj.SetPrepaMat();
         }
     }
+
 }

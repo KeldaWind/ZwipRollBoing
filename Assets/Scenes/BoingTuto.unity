@@ -2406,7 +2406,7 @@ MonoBehaviour:
   stockOfCylinders: 3
   stockOfPyramids: 3
   stockOfCones: 3
-  nextLevelName: 
+  nextLevelName: ZwipTuto
   levelObjects: []
 --- !u!4 &1210942267
 Transform:

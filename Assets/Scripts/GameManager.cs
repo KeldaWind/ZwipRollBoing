@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -23,6 +24,9 @@ public class GameManager : MonoBehaviour
         gameManager = this;
 
         ball.SetUpBall();
+
+        HideAllPlacementSpots = null;
+        ShowAllPlacementSpots = null;
 
         StartPreparationPhase();
 
@@ -51,6 +55,9 @@ public class GameManager : MonoBehaviour
 
     public void StartPreparationPhase()
     {
+        if (won)
+            return;
+
         preparationCamera.enabled = true;
         resolutionCamera.enabled = false;
 
@@ -60,6 +67,9 @@ public class GameManager : MonoBehaviour
         ball.ResetBall();
 
         LevelManager.levelManager.ResetAllObjects();
+
+        if(ShowAllPlacementSpots != null)
+            ShowAllPlacementSpots();
     }
 
     public void UpdatePreparationPhase()
@@ -95,11 +105,23 @@ public class GameManager : MonoBehaviour
 
         LevelManager.levelManager.CheckAllObjectsFunction();
         ball.ActivateResolutionBall();
+
+        HideAllPlacementSpots();
     }
 
     public void UpdateResolutionPhase()
     {
 
+    }
+
+    public delegate void UpdatePlacementSpots();
+    public UpdatePlacementSpots HideAllPlacementSpots;
+    public UpdatePlacementSpots ShowAllPlacementSpots;
+
+    public void AddPlacementSpot(PlacementSpot spot)
+    {
+        HideAllPlacementSpots += spot.HideRenderer;
+        ShowAllPlacementSpots += spot.ShowRenderer;
     }
     #endregion
 
@@ -128,6 +150,36 @@ public class GameManager : MonoBehaviour
                 }
             }
         }        
-    } 
-        #endregion
     }
+    #endregion
+
+    #region WinGame
+    [Header("WinGame")]
+    [SerializeField] GameObject winGamePanel;
+    bool won;
+
+    public void WinGame()
+    {
+        Debug.Log("C'est gagné !");
+        winGamePanel.SetActive(true);
+        won = true;
+    }
+
+    public void LoadNextLevel()
+    {
+        try
+        {
+            SceneManager.LoadScene(LevelManager.levelManager.nextLevelName);
+        }
+        catch
+        {
+            GoBackToMenu();
+        }
+    }
+
+    public void GoBackToMenu()
+    {
+        SceneManager.LoadScene("MainMenuScene");
+    }
+    #endregion
+}

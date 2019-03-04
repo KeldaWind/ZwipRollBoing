@@ -6,6 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
+    path: Assets/Scenes/MainMenuScene.unity
+    guid: 0998bf2e1dc326742b32221b9dac8a42
+  - enabled: 1
+    path: Assets/Scenes/BoingTuto.unity
+    guid: 794fbe79d19e62e45b74238b687bf4a0
+  - enabled: 1
+    path: Assets/Scenes/RollTuto.unity
+    guid: a5cd4953c60207f4993d1426b5336261
+  - enabled: 1
+    path: Assets/Scenes/ZwipTuto.unity
+    guid: 347c16bdc3ae90940a620473bfaaf066
   m_configObjects: {}
