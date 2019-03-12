@@ -32,6 +32,9 @@ public class PlacementSpot : MonoBehaviour
         LevelManager.levelManager.AddNewObject(placedObject);
 
         occupied = true;
+
+        if (TutorialManager.tutorialManager != null)
+            TutorialManager.tutorialManager.ShowSelectText();
     }
 
     public void RemoveObject()
