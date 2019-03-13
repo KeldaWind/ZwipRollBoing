@@ -73,11 +73,11 @@ public class LevelObject : MonoBehaviour
         switch (rot)
         {
             case(ModificationType.RotateXPositive):
-                rotation.x = 90;
+                    rotation.x = 90;
                 break;
 
             case (ModificationType.RotateXNegative):
-                rotation.x = -90;
+                    rotation.x = -90;
                 break;
 
             case (ModificationType.RotateYPositive):

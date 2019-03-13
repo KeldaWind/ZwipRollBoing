@@ -43,22 +43,31 @@ public class InventoryManager
         coneNumberText.text = remainingNumberOfCone.ToString();
     }
 
-    public ObjectUIDragAndDrop StartDragAndDrop(LevelObjectType type)
+    public ObjectUIDragAndDrop StartDragAndDrop(LevelObjectType type, bool fromUi)
     {
         if (type == LevelObjectType.Cylinder)
         {
+            if (GameManager.gameManager.InvtManager.remainingNumberOfCylinder <= 0 && fromUi)
+                return null;
+
             ObjectUIDragAndDrop newDNDObject = Object.Instantiate(dndCylinderPrefab, dragAndDropObjectsParent);
             newDNDObject.transform.localPosition = Input.mousePosition;
             return newDNDObject;
         }
         else if (type == LevelObjectType.Pyramid)
         {
+            if (GameManager.gameManager.InvtManager.remainingNumberOfPyramid <= 0 && fromUi)
+                return null;
+
             ObjectUIDragAndDrop newDNDObject = Object.Instantiate(dndPyramidPrefab, dragAndDropObjectsParent);
             newDNDObject.transform.localPosition = Input.mousePosition;
             return newDNDObject;
         }
         else if (type == LevelObjectType.Cone)
         {
+            if (GameManager.gameManager.InvtManager.remainingNumberOfCone <= 0 && fromUi)
+                return null;
+
             ObjectUIDragAndDrop newDNDObject = Object.Instantiate(dndConePrefab, dragAndDropObjectsParent);
             newDNDObject.transform.localPosition = Input.mousePosition;
             return newDNDObject;

@@ -20,8 +20,11 @@ public class ObjectUIDragAndDrop : MonoBehaviour
         {
             if (!CheckForSpot())
             {
-                if(relatedSpot !=  null)
+                if (relatedSpot != null)
+                {
+                    Debug.Log("replaçage");
                     GameManager.gameManager.InvtManager.RetrieveObject(type);
+                }
             }
             
             Destroy(gameObject);
@@ -46,13 +49,13 @@ public class ObjectUIDragAndDrop : MonoBehaviour
             if (spot != null)
             {
                 goodSpot = spot;
+                spotPresent = true;
                 if (spot != relatedSpot)
                 {
-                    if(spot.GetPlacedObject() != null)
-                        newSpotBasicObjectType = spot.GetPlacedObject().GetLvlObjectType;                    
+                    if (spot.GetPlacedObject() != null)
+                        newSpotBasicObjectType = spot.GetPlacedObject().GetLvlObjectType;
 
                     GameManager.gameManager.InvtManager.PlaceObject(type, spot, relatedSpot);
-                    spotPresent = true;
                     break;
                 }
             }

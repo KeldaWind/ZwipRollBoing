@@ -152,7 +152,7 @@ public class GameManager : MonoBehaviour
                 ObjectUIStock stock = result.gameObject.GetComponent<ObjectUIStock>();
                 if (stock != null)
                 {
-                    inventoryManager.StartDragAndDrop(stock.type);
+                    inventoryManager.StartDragAndDrop(stock.type, true);
                 }
             }
         }        

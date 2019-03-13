@@ -73,9 +73,13 @@ public class PlacementSpot : MonoBehaviour
         {
             if(!dnded && Vector3.Distance(startPos, Input.mousePosition) > 50)
             {
-                ObjectUIDragAndDrop newDNDObject = GameManager.gameManager.InvtManager.StartDragAndDrop(placedObject.GetLvlObjectType);
-                newDNDObject.SetUp(this);
-                dnded = true;
+                ObjectUIDragAndDrop newDNDObject = GameManager.gameManager.InvtManager.StartDragAndDrop(placedObject.GetLvlObjectType, false);
+
+                if (newDNDObject != null)
+                {
+                    newDNDObject.SetUp(this);
+                    dnded = true;
+                }
             }
 
             if (Input.GetMouseButtonUp(0))
