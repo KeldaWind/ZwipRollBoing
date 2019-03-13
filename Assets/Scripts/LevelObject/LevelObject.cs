@@ -98,6 +98,9 @@ public class LevelObject : MonoBehaviour
         }
 
         transform.Rotate(rotation, Space.World);
+
+        if (TutorialManager.tutorialManager != null)
+            TutorialManager.tutorialManager.ShowRotationText();
     }
     #endregion
 

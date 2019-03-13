@@ -70,6 +70,9 @@ public class GameManager : MonoBehaviour
 
         if(ShowAllPlacementSpots != null)
             ShowAllPlacementSpots();
+
+        if (TutorialManager.tutorialManager != null)
+            TutorialManager.tutorialManager.ShowGoalText();
     }
 
     public void UpdatePreparationPhase()
@@ -107,6 +110,9 @@ public class GameManager : MonoBehaviour
         ball.ActivateResolutionBall();
 
         HideAllPlacementSpots();
+
+        if (TutorialManager.tutorialManager != null)
+            TutorialManager.tutorialManager.ShowWhatToDoText();
     }
 
     public void UpdateResolutionPhase()
