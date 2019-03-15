@@ -477,7 +477,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tutorialText: {fileID: 1142791206}
-  playTutorial: 1
+  tutoPart: 0
+  goalPassed: 0
+  whatToDoPassed: 0
+  dragAndDropPassed: 0
+  resolvePassed: 0
+  rotationPassed: 0
 --- !u!1 &216798854
 GameObject:
   m_ObjectHideFlags: 0
@@ -2594,7 +2599,7 @@ MonoBehaviour:
   stockOfCylinders: 1
   stockOfPyramids: 0
   stockOfCones: 1
-  nextLevelName: 5_ZwipTuto
+  nextLevelName: Level1
   levelObjects: []
 --- !u!4 &1210942267
 Transform:
