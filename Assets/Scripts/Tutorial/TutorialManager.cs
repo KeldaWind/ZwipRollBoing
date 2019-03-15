@@ -25,7 +25,6 @@ public class TutorialManager : MonoBehaviour
     {
         if (tutoPart == TutoPart.None || tutorialText == null)
             return;
-        Debug.Log("allé ");
 
         if (tutoPart == TutoPart.First)
         {
@@ -42,7 +41,6 @@ public class TutorialManager : MonoBehaviour
         }
         else if (tutoPart == TutoPart.Second)
         {
-            Debug.Log("allé la");
             if (!goalPassed)
             {
                 tutorialText.text = "Une fois placé, un objet peut être pivoté pour modifier sa fonction";

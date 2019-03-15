@@ -166,7 +166,6 @@ public class GameManager : MonoBehaviour
 
     public void WinGame()
     {
-        Debug.Log("C'est gagné !");
         winGamePanel.SetActive(true);
         won = true;
     }
