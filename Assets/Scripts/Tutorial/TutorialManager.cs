@@ -8,13 +8,13 @@ public class TutorialManager : MonoBehaviour
     public static TutorialManager tutorialManager;
 
     [SerializeField] Text tutorialText;
-    [SerializeField] bool playTutorial;
+    [SerializeField] TutoPart tutoPart;
 
-    bool goalPassed;
-    bool whatToDoPassed;
-    bool dragAndDropPassed;
-    bool selectPassed;
-    bool rotationPassed;
+    public bool goalPassed;
+    public bool whatToDoPassed;
+    public bool dragAndDropPassed;
+    public bool resolvePassed;
+    public bool rotationPassed;
 
     void Awake()
     {
@@ -23,68 +23,100 @@ public class TutorialManager : MonoBehaviour
 
     public void ShowGoalText()
     {
-        if (!playTutorial || tutorialText == null)
+        if (tutoPart == TutoPart.None || tutorialText == null)
             return;
+        Debug.Log("allé ");
 
-        if (!goalPassed)
+        if (tutoPart == TutoPart.First)
         {
-            tutorialText.text = "Le but est de faire en sorte que la balle bleue rejoigne le réceptacle de la même couleur. Appuyez sur play pour qu'elle commence à bouger.";
-            goalPassed = true;
+            if (!goalPassed)
+            {
+                tutorialText.text = "Le but est de faire en sorte que la balle bleue rejoigne le réceptacle de la même couleur. Appuyez sur play pour qu'elle commence à bouger.";
+                goalPassed = true;
+            }
+            else if (!dragAndDropPassed)
+            {
+                ShowDragAndDropText();
+                dragAndDropPassed = true;
+            }
         }
-        else if (!dragAndDropPassed)
+        else if (tutoPart == TutoPart.Second)
         {
-            ShowDragAndDropText();
-            dragAndDropPassed = true;
-        }        
+            Debug.Log("allé la");
+            if (!goalPassed)
+            {
+                tutorialText.text = "Une fois placé, un objet peut être pivoté pour modifier sa fonction";
+                goalPassed = true;
+            }
+        }
     }
 
     public void ShowWhatToDoText()
     {
-        if (!playTutorial || tutorialText == null)
+        if (tutoPart == TutoPart.None || tutorialText == null)
             return;
 
-        if (!whatToDoPassed)
+        if (tutoPart == TutoPart.First)
         {
-            tutorialText.text = "La caméra se place alors en vue de côté. Pour atteindre le réceptacle, il faut placer des objets.";
-            whatToDoPassed = true;
+            if (!whatToDoPassed)
+            {
+                tutorialText.text = "La caméra se place alors en vue de côté. Pour atteindre le réceptacle, il faut placer des objets.";
+                whatToDoPassed = true;
+            }
+            else
+            {
+                //tutorialText.text = "A vous d'expérimenter les différentes formes pour mieux les comprendre !";
+            }
         }
-        else
-        {
-            tutorialText.text = "A vous d'expérimenter les différentes formes pour mieux les comprendre !";
-        }
+        
     }
 
     public void ShowDragAndDropText()
     {
-        if (!playTutorial || tutorialText == null)
+        if (tutoPart == TutoPart.None || tutorialText == null)
             return;
 
-        if (!dragAndDropPassed)
+        if (tutoPart == TutoPart.First)
         {
-            tutorialText.text = "Pour placer un objet, maintenez le clic sur l'une des 3 icônes et glissez-la sur un emplacement grisé.";
-            dragAndDropPassed = true;
+            if (!dragAndDropPassed)
+            {
+                tutorialText.text = "Pour placer un objet, maintenez le clic sur l'une des 3 icônes et glissez-la sur un emplacement grisé.";
+                dragAndDropPassed = true;
+            }
         }
     }
 
     public void ShowSelectText()
     {
-        if (!playTutorial || tutorialText == null)
+        if (tutoPart == TutoPart.None || tutorialText == null)
             return;
 
         goalPassed = true;
         whatToDoPassed = true;
         dragAndDropPassed = true;
 
-        if (!selectPassed)
+        if (tutoPart == TutoPart.First)
         {
-            tutorialText.text = "Une fois l'objet placé, vous pouvez faire un cliquer-glisser pour le replacer ailleurs, ou cliquer dessus pour le faire pivoter.";
-            selectPassed = true;
+            if (!resolvePassed)
+            {
+                //tutorialText.text = "Une fois l'objet placé, vous pouvez faire un cliquer-glisser pour le replacer ailleurs, ou cliquer dessus pour le faire pivoter.";
+                tutorialText.text = "Il ne reste plus qu'à laisser la balle tomber pour passer le niveau !";
+                resolvePassed = true;
+            }
+        }
+        else if (tutoPart == TutoPart.Second)
+        {
+            if (!resolvePassed)
+            {
+                tutorialText.text = "Vous pouvez faire un cliquer-glisser sur l'objet pour le replacer ailleurs, ou cliquer dessus pour le faire pivoter.";
+                resolvePassed = true;
+            }
         }
     }
 
     public void ShowRotationText()
     {
-        if (!playTutorial || tutorialText == null)
+        if (tutoPart != TutoPart.Second || tutorialText == null)
             return;
 
         if (!rotationPassed)
@@ -93,4 +125,9 @@ public class TutorialManager : MonoBehaviour
             rotationPassed = true;
         }
     }
+}
+
+public enum TutoPart
+{
+    None, First, Second
 }
