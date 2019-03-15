@@ -30,7 +30,7 @@ public class TutorialManager : MonoBehaviour
         {
             if (!goalPassed)
             {
-                tutorialText.text = "Le but est de faire en sorte que la balle bleue rejoigne le réceptacle de la même couleur. Appuyez sur play pour qu'elle commence à bouger.";
+                tutorialText.text = "Le but est de faire en sorte que la balle bleue atteigne la plateforme de la même couleur. Appuyez sur play pour qu'elle commence à bouger.";
                 goalPassed = true;
             }
             else if (!dragAndDropPassed)
@@ -58,7 +58,7 @@ public class TutorialManager : MonoBehaviour
         {
             if (!whatToDoPassed)
             {
-                tutorialText.text = "La caméra se place alors en vue de côté. Pour atteindre le réceptacle, il faut placer des objets.";
+                tutorialText.text = "La caméra se place alors en vue de côté. Pour atteindre la plateforme, il faut placer des objets.";
                 whatToDoPassed = true;
             }
             else
@@ -78,7 +78,7 @@ public class TutorialManager : MonoBehaviour
         {
             if (!dragAndDropPassed)
             {
-                tutorialText.text = "Pour placer un objet, maintenez le clic sur l'une des 3 icônes et glissez-la sur un emplacement grisé.";
+                tutorialText.text = "Pour placer un objet, glissez et déposez-en un sur un emplacement grisé.";
                 dragAndDropPassed = true;
             }
         }
